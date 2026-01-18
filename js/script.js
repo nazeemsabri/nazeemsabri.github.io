@@ -1,66 +1,41 @@
-//event pada saat link di klik
-$('.page-scroll').on('click', function(e){
-
-    //ambil isi href
-    var tujuan = $(this).attr('href');
-    //tangkap elemen yang dia punya
-    var elemenTujuan = $(tujuan);
-    // console.log(elemenHref.offset().top);
-
-    // console.log($('#home').scrollTop());
-    //pindah kan scroll
-    // $('#home').scrollTop(elemenTujuan.offset().top);
-    $('#home').animate({
-        scrollTop: elemenTujuan.offset().top - 50
-    }, 1250, 'easeInOutExpo');
-
-
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
     e.preventDefault();
-});
-
-
-//parallax
-//about
-$(window).on('load', function(){
-    $('.pKiri').addClass('pMuncul');
-    $('.pKanan').addClass('pMuncul');
-});
-
-
-
-$(window).scroll(function(){
-    var wScroll = $(this).scrollTop();
-
-    $('.jumbotron img').css({
-        'transform' : 'translate(0px, '+ wScroll/4 +'%)'
-    });
-
-    $('.jumbotron h1').css({
-        'transform' : 'translate(0px, '+ wScroll/2 +'%)'
-    });
-
-    $('.jumbotron p').css({
-        'transform' : 'translate(0px, '+ wScroll/1.2 +'%)'
-    });
-    
-    // $('.muncul').hide();
-    //portfolio
-    if(wScroll > $('.portfolio').offset().top - 250){
-        $('.portfolio .thumbnail').each(function(i){
-            setTimeout(function(){
-                
-                $('.portfolio .thumbnail').eq(i).addClass('muncul');
-            }, 300 * (i+1));
-            
-        });
-
-
-        // $('.portfolio .thumbnail').addClass('muncul');
+    const target = document.querySelector(this.getAttribute("href"));
+    if (target) {
+      const offsetTop = target.offsetTop - 60;
+      window.scrollTo({
+        top: offsetTop,
+        behavior: "smooth",
+      });
+      // Close mobile menu if open
+      navMenu.classList.remove("active");
     }
-    else{
-        $('a').removeClass('muncul');
-
-    }
-    
+  });
 });
 
+// Mobile menu toggle
+const hamburger = document.getElementById("hamburger");
+const navMenu = document.getElementById("navMenu");
+
+hamburger.addEventListener("click", () => {
+  navMenu.classList.toggle("active");
+});
+
+// Form submission
+document.getElementById("contactForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  alert("Terima kasih! Mesej anda telah dihantar.");
+  this.reset();
+});
+
+// Add active class to navbar on scroll
+window.addEventListener("scroll", () => {
+  const navbar = document.querySelector(".navbar");
+  if (window.scrollY > 50) {
+    navbar.style.backgroundColor = "#111";
+  } else {
+    navbar.style.backgroundColor = "#222";
+  }
+});
